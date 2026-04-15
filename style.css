@@ -1,51 +1,104 @@
+/* RESET */
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f6f8;
   margin: 0;
-  padding: 20px;
-}
-
-h2 {
-  color: #333;
-}
-
-input, textarea, select {
-  width: 100%;
-  max-width: 400px;
-  padding: 10px;
-  margin-top: 5px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 14px;
-}
-
-button {
-  padding: 10px 20px;
-  background-color: #007bff;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to right, #1e3c72, #2a5298);
   color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+  text-align: center;
 }
 
-button:hover {
-  background-color: #0056b3;
-}
-
-#list {
+/* HEADINGS */
+h1, h2, h3 {
   margin-top: 20px;
 }
 
-#list div {
-  background-color: white;
-  padding: 15px;
-  border-radius: 8px;
-  margin-bottom: 10px;
-  max-width: 500px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+/* BUTTONS */
+button {
+  padding: 10px 18px;
+  margin: 8px;
+  border: none;
+  border-radius: 6px;
+  background-color: #ffffff;
+  color: #1e3c72;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
-hr {
+button:hover {
+  background-color: #ffcc00;
+  color: black;
+}
+
+/* ACTIVE BUTTON */
+.active {
+  background-color: #ffcc00 !important;
+  color: black !important;
+  transform: scale(1.05);
+}
+
+/* DIMMED BUTTON */
+.dim {
+  opacity: 0.6;
+}
+
+/* INPUTS */
+input, textarea, select {
+  width: 60%;
+  padding: 10px;
+  margin: 8px 0;
+  border-radius: 6px;
   border: none;
+}
+
+/* SECTIONS */
+#statusSection, #registerSection, #adminList {
+  margin-top: 20px;
+}
+
+/* COMPLAINT CARDS */
+#statusList div,
+#pollList div,
+#adminList div {
+  background-color: rgba(255,255,255,0.1);
+  margin: 10px auto;
+  padding: 12px;
+  width: 70%;
+  border-radius: 8px;
+  text-align: left;
+  line-height: 1.5;
+}
+
+/* 🔥 FIX: Proper alignment for poll items */
+#pollList div {
+  display: flex;
+  align-items: center;
+}
+
+/* RADIO BUTTON SPACING */
+#pollList input {
+  margin-right: 10px;
+  transform: scale(1.2);
+}
+
+/* STATUS COLORS */
+.pending {
+  color: orange;
+  font-weight: bold;
+}
+
+.inprogress {
+  color: cyan;
+  font-weight: bold;
+}
+
+.resolved {
+  color: lightgreen;
+  font-weight: bold;
+}
+
+/* SMALL POLISH */
+hr {
+  width: 60%;
+  border: 1px solid rgba(255,255,255,0.2);
 }

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Panel</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<h1>Admin Dashboard</h1>
+<h2>Admin Panel - Manage Campus Issues</h2>
+
+<h2>Admin Panel</h2>
+
+<h3>Select Department</h3>
+
+<button onclick="selectAdminDept(event, 'hostel')">Hostel/Mess</button>
+<button onclick="selectAdminDept(event, 'academics')">Academics</button>
+<button onclick="selectAdminDept(event, 'campus')">Campus Infrastructure</button>
+
+<hr style="width:60%;">
+
+<div id="adminList"></div>
+
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+<script src="firebase.js"></script>
+<script src="admin.js"></script>
+
+<script src="admin.js"></script>
+
+</body>
+</html>

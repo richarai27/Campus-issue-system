@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Panel</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<h1>Student Dashboard</h1>
+<h2>Student Panel</h2>
+
+<!-- OPTIONS -->
+<button onclick="handleMainTab(event, 'status')">Check Status</button>
+<button onclick="handleMainTab(event, 'register')">Register Complaint</button>
+
+<hr style="width:70%;">
+
+<!-- CHECK STATUS -->
+<div id="statusSection" style="display:none;">
+  <h3>Check Status</h3>
+
+<button onclick="handleFilter(event, 'all')">All</button>
+<button onclick="handleFilter(event, 'Pending')">Pending</button>
+<button onclick="handleFilter(event, 'In Progress')">In Progress</button>
+<button onclick="handleFilter(event, 'Resolved')">Resolved</button>
+
+  <div id="statusList"></div>
+</div>
+
+<!-- REGISTER -->
+<div id="registerSection" style="display:none;">
+  <h3>Select Department</h3>
+
+  <button onclick="selectDept('hostel')">Hostel/Mess</button>
+  <button onclick="selectDept('academics')">Academics</button>
+  <button onclick="selectDept('campus')">Campus Infrastructure</button>
+
+  <hr style="width:70%;">
+  <!-- <div id="deptComplaints"></div> -->
+<h3>Registered Complaints(Vote)</h3>
+<div id="pollList"></div>
+
+<button onclick="voteComplaint()">Vote</button>
+
+<hr style="width:40%;">
+
+<h3>Register New Complaint</h3>
+
+<input id="title" placeholder="Title"><br><br>
+<textarea id="description" placeholder="Description"></textarea><br><br>
+
+<button onclick="submitComplaint()">Submit New</button>
+
+
+  <!-- <h4>Register New Complaint</h4> -->
+
+  <!-- <input id="title" placeholder="Title"><br><br> -->
+  <!-- <textarea id="description" placeholder="Description"></textarea><br><br> -->
+
+  <!-- <button onclick="submitComplaint()">Submit</button> -->
+   <div id="registerSection" style="display:none;">
+  <h3>Select Department</h3>
+
+  <button onclick="selectDept('hostel')">Hostel/Mess</button>
+  <button onclick="selectDept('academics')">Academics</button>
+  <button onclick="selectDept('campus')">Campus Infrastructure</button>
+
+  <hr style="width:70%;">
+
+  <!-- POLL SECTION -->
+  <h3>Registered Complaints(Vote)</h3>
+  <div id="pollList"></div>
+<button onclick="voteComplaint()">Vote</button>
+  <!-- <button onclick="voteComplaint()">Vote</button> -->
+
+  <hr style="width:40%;">
+
+  <!-- NEW COMPLAINT -->
+  <h3>Register New Complaint</h3>
+
+  <input id="title" placeholder="Title"><br><br>
+  <textarea id="description" placeholder="Description"></textarea><br><br>
+
+  <button onclick="submitComplaint()">Submit New</button>
+</div>
+
+
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+<script src="firebase.js"></script>
+<script src="student.js"></script>
+<!-- <script src="student.js"></script> -->
+
+</body>
+</html>

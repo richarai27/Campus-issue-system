@@ -55,4 +55,68 @@ function loadComplaints() {
   });
 }
 
+function updateStatus(id, newStatus) {
+  db.ref("complaints/" + id).update({
+    status: newStatus
+  });
+}
+
+function showStudent() {
+  document.getElementById("studentSection").style.display = "block";
+  document.getElementById("adminSection").style.display = "none";
+}
+
+function showAdmin() {
+  document.getElementById("studentSection").style.display = "none";
+  document.getElementById("adminSection").style.display = "block";
+}
+
+function loadAdminComplaints() {
+  const list = document.getElementById("adminList");
+
+  db.ref("complaints").on("value", (snapshot) => {
+    list.innerHTML = "";
+
+    snapshot.forEach((childSnapshot) => {
+      const data = childSnapshot.val();
+
+      list.innerHTML += `
+        <div>
+          <h4>${data.title}</h4>
+          <p>${data.description}</p>
+          <p>${data.category} | ${data.status}</p>
+
+          <button onclick="updateStatus('${childSnapshot.key}', 'In Progress')">
+            In Progress
+          </button>
+
+          <button onclick="updateStatus('${childSnapshot.key}', 'Resolved')">
+            Resolved
+          </button>
+        </div>
+        <hr>
+      `;
+    });
+  });
+}
+
+function showHome() {
+  document.getElementById("homeSection").style.display = "block";
+  document.getElementById("studentSection").style.display = "none";
+  document.getElementById("adminSection").style.display = "none";
+}
+
+function showStudent() {
+  document.getElementById("homeSection").style.display = "none";
+  document.getElementById("studentSection").style.display = "block";
+  document.getElementById("adminSection").style.display = "none";
+}
+
+function showAdmin() {
+  document.getElementById("homeSection").style.display = "none";
+  document.getElementById("studentSection").style.display = "none";
+  document.getElementById("adminSection").style.display = "block";
+}
+loadAdminComplaints();
+
 loadComplaints();
