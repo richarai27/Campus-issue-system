@@ -10,6 +10,7 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 const auth = firebase.auth();
 
+
 // Auto login handling
 auth.onAuthStateChanged(user => {
   if (user) {
@@ -68,6 +69,13 @@ function login() {
       document.getElementById("roleSection").style.display = "block";
     })
     .catch(err => alert(err.message));
+}
+
+function logout() {
+  auth.signOut().then(() => {
+    alert("Logged out");
+    location.reload();
+  });
 }
 
 // ROLE NAVIGATION

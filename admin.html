@@ -3,32 +3,83 @@
 <head>
   <title>Admin Panel</title>
   <link rel="stylesheet" href="style.css">
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 </head>
 
 <body>
-<h1>Admin Dashboard</h1>
-<h2>Admin Panel - Manage Campus Issues</h2>
 
-<h2>Admin Panel</h2>
+<div class="container">
 
-<h3>Select Department</h3>
+  <h2>Admin Panel</h2>
 
-<button onclick="selectAdminDept(event, 'hostel')">Hostel/Mess</button>
-<button onclick="selectAdminDept(event, 'academics')">Academics</button>
-<button onclick="selectAdminDept(event, 'campus')">Campus Infrastructure</button>
+  <!-- 🔐 User Info + Logout -->
+  <div style="margin-bottom: 15px;">
+    <span id="adminEmail"></span>
+    <button onclick="logout()">Logout</button>
+  </div>
 
-<hr style="width:60%;">
+  <h3>Select Department</h3>
 
-<div id="adminList"></div>
+  <!-- 🔥 Buttons with active effect -->
+  <button onclick="selectDept(this, 'hostel')">Hostel/Mess</button>
+  <button onclick="selectDept(this, 'academics')">Academics</button>
+  <button onclick="selectDept(this, 'campus')">Campus Infrastructure</button>
 
+  <hr>
 
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  <!-- 🔥 Complaint List -->
+  <div id="adminList">
+    <p>Select a department to view complaints</p>
+  </div>
+
+  <hr>
+
+  <!-- 🔥 Performance Section -->
+  <button onclick="calculatePerformance()">Check Department Ranking</button>
+
+  <div id="performance"></div>
+
+</div>
 
 <script src="firebase.js"></script>
 <script src="admin.js"></script>
 
-<script src="admin.js"></script>
+<script>
+  // 🔥 Show logged in admin email
+  firebase.auth().onAuthStateChanged(user => {
+    if (user) {
+      document.getElementById("adminEmail").innerText = "Logged in as: " + user.email;
+    } else {
+      window.location.href = "index1.html";
+    }
+  });
+
+  // 🔥 Logout function
+  function logout() {
+    firebase.auth().signOut().then(() => {
+      alert("Logged out");
+      window.location.href = "index1.html";
+    });
+  }
+
+  // 🔥 Active button highlight
+  function selectDept(button, dept) {
+    // remove active from all
+    document.querySelectorAll("button").forEach(btn => {
+      btn.classList.remove("active");
+    });
+
+    // add active to clicked
+    button.classList.add("active");
+
+    // call existing function
+    loadDept(dept);
+  }
+</script>
 
 </body>
 </html>

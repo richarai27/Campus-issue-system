@@ -10,6 +10,7 @@ body {
 /* HEADINGS */
 h1, h2, h3 {
   margin-top: 20px;
+  letter-spacing: 1px;
 }
 
 /* BUTTONS */
@@ -22,12 +23,13 @@ button {
   color: #1e3c72;
   font-weight: bold;
   cursor: pointer;
-  transition: 0.3s;
+  transition: 0.3s ease;
 }
 
 button:hover {
   background-color: #ffcc00;
   color: black;
+  transform: translateY(-2px);
 }
 
 /* ACTIVE BUTTON */
@@ -49,27 +51,38 @@ input, textarea, select {
   margin: 8px 0;
   border-radius: 6px;
   border: none;
+  outline: none;
 }
 
 /* SECTIONS */
-#statusSection, #registerSection, #adminList {
+#statusSection, #registerSection, #adminList, #performance {
   margin-top: 20px;
 }
 
 /* COMPLAINT CARDS */
 #statusList div,
 #pollList div,
-#adminList div {
-  background-color: rgba(255,255,255,0.1);
-  margin: 10px auto;
-  padding: 12px;
+#adminList div,
+#performance div {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+  margin: 12px auto;
+  padding: 15px;
   width: 70%;
-  border-radius: 8px;
+  border-radius: 10px;
   text-align: left;
-  line-height: 1.5;
+  line-height: 1.6;
+  transition: 0.3s;
 }
 
-/* 🔥 FIX: Proper alignment for poll items */
+#statusList div:hover,
+#pollList div:hover,
+#adminList div:hover,
+#performance div:hover {
+  transform: scale(1.02);
+}
+
+/* 🔥 POLL ALIGNMENT */
 #pollList div {
   display: flex;
   align-items: center;
@@ -97,8 +110,31 @@ input, textarea, select {
   font-weight: bold;
 }
 
+/* 🏆 PERFORMANCE RANKING */
+#performance h4 {
+  margin: 5px 0;
+}
+
+#performance div:first-child {
+  border: 2px solid gold;
+}
+
+#performance div:nth-child(2) {
+  border: 2px solid silver;
+}
+
+#performance div:nth-child(3) {
+  border: 2px solid #cd7f32; /* bronze */
+}
+
 /* SMALL POLISH */
 hr {
   width: 60%;
   border: 1px solid rgba(255,255,255,0.2);
+}
+
+/* OPTIONAL: CENTER CONTAINER */
+.container {
+  max-width: 900px;
+  margin: auto;
 }
