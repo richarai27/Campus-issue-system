@@ -6,117 +6,97 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
+
 const db = firebase.database();
+const auth = firebase.auth();
 
-// Submit complaint
-function submitComplaint() {
-  const title = document.getElementById("title").value;
-  const description = document.getElementById("description").value;
-  const category = document.getElementById("category").value;
+// Auto login handling
+auth.onAuthStateChanged(user => {
+  if (user) {
+    document.getElementById("loginSection").style.display = "none";
+    document.getElementById("roleSection").style.display = "block";
+  }
+});
 
-  const newRef = db.ref("complaints").push();
+// SIGNUP (with whitelist check)
+function signup() {
+  const email = document.getElementById("email").value.trim().toLowerCase();
+  const password = document.getElementById("password").value;
 
-  newRef.set({
-    title: title,
-    description: description,
-    category: category,
-    status: "Pending"
-  })
-  .then(() => {
-  console.log("Data saved successfully");
-  alert("Complaint submitted!");
-  })
-  .catch((error) => {
-  console.error("Error:", error);
-  alert("Error submitting complaint. Please try again.");
-  });
-  
-}
+  db.ref("allowedusers").once("value", (snapshot) => {
+    let allowed = false;
+    let role = "student";
 
-// Load complaints
-function loadComplaints() {
-  const list = document.getElementById("list");
+    snapshot.forEach((child) => {
+      const data = child.val();
 
-  db.ref("complaints").on("value", (snapshot) => {
-    list.innerHTML = "";
-
-    snapshot.forEach((childSnapshot) => {
-      const data = childSnapshot.val();
-
-      list.innerHTML += `
-        <div>
-          <h4>${data.title}</h4>
-          <p>${data.description}</p>
-          <p>${data.category} | ${data.status}</p>
-        </div>
-        <hr>
-      `;
+      if (data.email.trim().toLowerCase() === email) {
+        allowed = true;
+        role = data.role.toLowerCase();
+      }
     });
+
+    if (!allowed) {
+      alert("You are not authorized.");
+      return;
+    }
+
+    auth.createUserWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+
+        db.ref("users/" + user.uid).set({
+          email: email,
+          role: role
+        });
+
+        alert("Registered successfully!");
+      })
+      .catch(err => alert(err.message));
   });
 }
 
-function updateStatus(id, newStatus) {
-  db.ref("complaints/" + id).update({
-    status: newStatus
+// LOGIN
+function login() {
+  const email = document.getElementById("email").value.trim().toLowerCase();
+  const password = document.getElementById("password").value;
+
+  auth.signInWithEmailAndPassword(email, password)
+    .then(() => {
+      alert("Login successful!");
+      document.getElementById("loginSection").style.display = "none";
+      document.getElementById("roleSection").style.display = "block";
+    })
+    .catch(err => alert(err.message));
+}
+
+// ROLE NAVIGATION
+function goStudent() {
+  const user = auth.currentUser;
+
+  if (!user) {
+    alert("Please login first");
+    return;
+  }
+
+  window.location.href = "student.html";
+}
+
+function goAdmin() {
+  const user = auth.currentUser;
+
+  if (!user) {
+    alert("Please login first");
+    return;
+  }
+
+  db.ref("users/" + user.uid).once("value", (snapshot) => {
+    const data = snapshot.val();
+
+    if (data && data.role === "admin") {
+      window.location.href = "admin.html";
+    } else {
+      alert("Access denied: Not an admin");
+    }
   });
 }
-
-function showStudent() {
-  document.getElementById("studentSection").style.display = "block";
-  document.getElementById("adminSection").style.display = "none";
-}
-
-function showAdmin() {
-  document.getElementById("studentSection").style.display = "none";
-  document.getElementById("adminSection").style.display = "block";
-}
-
-function loadAdminComplaints() {
-  const list = document.getElementById("adminList");
-
-  db.ref("complaints").on("value", (snapshot) => {
-    list.innerHTML = "";
-
-    snapshot.forEach((childSnapshot) => {
-      const data = childSnapshot.val();
-
-      list.innerHTML += `
-        <div>
-          <h4>${data.title}</h4>
-          <p>${data.description}</p>
-          <p>${data.category} | ${data.status}</p>
-
-          <button onclick="updateStatus('${childSnapshot.key}', 'In Progress')">
-            In Progress
-          </button>
-
-          <button onclick="updateStatus('${childSnapshot.key}', 'Resolved')">
-            Resolved
-          </button>
-        </div>
-        <hr>
-      `;
-    });
-  });
-}
-
-function showHome() {
-  document.getElementById("homeSection").style.display = "block";
-  document.getElementById("studentSection").style.display = "none";
-  document.getElementById("adminSection").style.display = "none";
-}
-
-function showStudent() {
-  document.getElementById("homeSection").style.display = "none";
-  document.getElementById("studentSection").style.display = "block";
-  document.getElementById("adminSection").style.display = "none";
-}
-
-function showAdmin() {
-  document.getElementById("homeSection").style.display = "none";
-  document.getElementById("studentSection").style.display = "none";
-  document.getElementById("adminSection").style.display = "block";
-}
-loadAdminComplaints();
-
-loadComplaints();
